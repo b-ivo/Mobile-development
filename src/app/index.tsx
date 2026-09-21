@@ -44,6 +44,13 @@ export default function HomeScreen() {
       >
         <Text style={styles.buttonText}>Reset</Text>
       </Pressable>
+      <Pressable style={styles.button} onPress={() => {
+        setText("");
+        setGreetings(false);
+        setCount(0)
+      }}>
+        <Text style={styles.buttonText}>Clear Name</Text>
+      </Pressable>
     </View>
   );
 }
