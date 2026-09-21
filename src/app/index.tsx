@@ -1,28 +1,39 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function HomeScreen() {
   const [count, setCount] = useState(0);
-  const [text, setText] = useState("")
-  const [greetings, setGreetings] = useState(false)
+  const [text, setText] = useState("");
+  const [greetings, setGreetings] = useState(false);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello world</Text>
       <Text style={styles.subtitle}>Learning React Native</Text>
 
-      <TextInput style={styles.input} onChangeText={(value) => setText(value)}  value={text}/>
-        { greetings && (
-          <Text>Hello {text}</Text>
-        )}
+      <TextInput
+        style={styles.input}
+        onChangeText={(value) => setText(value)}
+        value={text}
+      />
+      {greetings && <Text>Hello {text}</Text>}
 
       <Pressable style={styles.button} onPress={() => setCount(count + 1)}>
         <Text style={styles.buttonText}>Press ME</Text>
       </Pressable>
-      <Pressable onPress={()=> setGreetings(true)} style={styles.button}>
+      <Pressable onPress={() => setGreetings(true)} style={styles.button}>
         <Text style={styles.buttonText}>Show Greetings</Text>
       </Pressable>
       <Text>You pressed the button {count} times</Text>
+      <Pressable
+        onPress={() => {
+          setGreetings(false);
+          setText("");
+        }}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Reset</Text>
+      </Pressable>
     </View>
   );
 }
@@ -58,6 +69,6 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 19,
     borderColor: "black",
-    borderWidth: 1
-  }
+    borderWidth: 1,
+  },
 });
