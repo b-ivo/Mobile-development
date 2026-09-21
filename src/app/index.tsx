@@ -15,6 +15,7 @@ export default function HomeScreen() {
         style={styles.input}
         onChangeText={(value) => setText(value)}
         value={text}
+        placeholder="Enter your name"
       />
       {greetings && <Text>Hello {text}</Text>}
 
