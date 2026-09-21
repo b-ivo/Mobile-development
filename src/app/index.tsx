@@ -1,21 +1,40 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Button from "./Button";
 
 export default function HomeScreen() {
   const [count, setCount] = useState(0);
 
   return (
     <View style={styles.container}>
-      <Text>{count}</Text>
-      <Pressable  style={styles.button} onPress={() => setCount(count+1)}> 
-        <Text style={styles.buttonText}>Increase</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={() => setCount(count-1)}>
-        <Text style={styles.buttonText}>Decrease</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={() => setCount(0)}>
-        <Text style={styles.buttonText}>Reset</Text>
-      </Pressable>
+      <Text style={styles.counter}>{count}</Text>
+      <Button
+        title="Increase"
+        onPress={() => {
+          if (count < 10) {
+            setCount(count + 1);
+          }
+        }}
+        disabled={count === 10}
+      />
+      <Button
+        title="Decrease"
+        onPress={() => {
+          if (count > 0) {
+            setCount(count - 1);
+          }
+        }}
+        disabled={count === 0}
+      />
+      <Button title="Reset" onPress={() => setCount(0)} />
+
+      {count === 0 ? (
+        <Text>Counter is empty</Text>
+      ) : count === 10 ? (
+        <Text>Maximum reached</Text>
+      ) : (
+        <Text>Keep going</Text>
+      )}
     </View>
   );
 }
@@ -26,31 +45,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: 32,
+  counter: {
+    fontSize: 60,
     fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 18,
-    marginTop: 10,
-  },
-  button: {
-    marginTop: 30,
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    backgroundColor: "black",
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  input: {
-    width: 250,
-    height: 50,
-    padding: 19,
-    borderColor: "black",
-    borderWidth: 1,
   },
 });
