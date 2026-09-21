@@ -1,40 +1,28 @@
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import Button from "./Button";
 
 export default function HomeScreen() {
-  const [count, setCount] = useState(0);
+  const [items, setItems] = useState<string[]>([]);
+  const [text, setText] = useState<string>("");
 
+  const addItem = () => {
+    if (text.trim() === "") return;
+    setItems([...items, text.trim()]);
+    setText("");
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.counter}>{count}</Text>
-      <Button
-        title="Increase"
-        onPress={() => {
-          if (count < 10) {
-            setCount(count + 1);
-          }
-        }}
-        disabled={count === 10}
+      <TextInput
+        placeholder="Enter The Item.."
+        style={styles.input}
+        onChangeText={(value) => setText(value)}
+        value={text}
       />
-      <Button
-        title="Decrease"
-        onPress={() => {
-          if (count > 0) {
-            setCount(count - 1);
-          }
-        }}
-        disabled={count === 0}
-      />
-      <Button title="Reset" onPress={() => setCount(0)} />
-
-      {count === 0 ? (
-        <Text>Counter is empty</Text>
-      ) : count === 10 ? (
-        <Text>Maximum reached</Text>
-      ) : (
-        <Text>Keep going</Text>
-      )}
+      <Button title="Add" onPress={addItem} />
+      {items.map((item) => (
+        <Text key={item}>{item}</Text>
+      ))}
     </View>
   );
 }
@@ -43,10 +31,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#fff",
   },
-  counter: {
-    fontSize: 60,
-    fontWeight: "bold",
+  input: {
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    fontSize: 16,
+  },
+  preview: {
+    marginTop: 15,
+    fontSize: 16,
+    color: "#333",
   },
 });

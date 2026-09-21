@@ -1,21 +1,20 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 type ButtonProps = {
-    title: string,
-    onPress: () => void,
-    disabled?: boolean
-}
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+};
 
-export default function Button ({ title, onPress, disabled }: ButtonProps ) {
-    
-    return(
-        <Pressable onPress={onPress} disabled={disabled} style={({ pressed }) => [
-            styles.button,
-            pressed && {opacity: 0.5},
-            disabled && {opacity: 0.3}
-        ]}>
-            <Text style={styles.buttonText}>{ title }</Text>
-        </Pressable>
-    )   
+export default function Button({ title, onPress, disabled }: ButtonProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={styles.button}
+    >
+      <Text style={styles.buttonText}>{title}</Text>
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -30,5 +29,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-  }
+  },
 });
