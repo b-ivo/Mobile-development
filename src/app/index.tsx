@@ -12,10 +12,15 @@ export default function HomeScreen() {
       <Text style={styles.subtitle}>Learning React Native</Text>
 
       <TextInput style={styles.input} onChangeText={(value) => setText(value)}  value={text}/>
-      <Text>Hello {text}</Text>
+        { greetings && (
+          <Text>Hello {text}</Text>
+        )}
 
       <Pressable style={styles.button} onPress={() => setCount(count + 1)}>
         <Text style={styles.buttonText}>Press ME</Text>
+      </Pressable>
+      <Pressable onPress={()=> setGreetings(true)} style={styles.button}>
+        <Text style={styles.buttonText}>Show Greetings</Text>
       </Pressable>
       <Text>You pressed the button {count} times</Text>
     </View>
