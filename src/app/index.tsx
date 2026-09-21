@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
 export default function HomeScreen() {
   const [count, setCount] = useState(0);
@@ -16,13 +17,21 @@ export default function HomeScreen() {
         onChangeText={(value) => setText(value)}
         value={text}
         placeholder="Enter your name"
+        autoFocus
       />
-      {greetings && <Text>Hello {text}</Text>}
+      {greetings && text !== "" && <Text>Hello {text}</Text>}
 
       <Pressable style={styles.button} onPress={() => setCount(count + 1)}>
         <Text style={styles.buttonText}>Press ME</Text>
       </Pressable>
-      <Pressable onPress={() => setGreetings(true)} style={styles.button}>
+      <Pressable
+        onPress={() => setGreetings(true)}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && {opacity: 0.5}
+        ]}
+        disabled={text === ""}
+      >
         <Text style={styles.buttonText}>Show Greetings</Text>
       </Pressable>
       <Text>You pressed the button {count} times</Text>
