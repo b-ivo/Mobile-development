@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import Button from "./Button";
+import ItemRow from "./ItemRow";
 
 type Item = {
   id: string;
@@ -52,18 +53,14 @@ export default function HomeScreen() {
         value={text}
       />
       <Button title="Add" onPress={addItem} />
-      <FlatList 
+      <FlatList<Item>
+        keyExtractor={(item) => item.id}
         data={items}
         renderItem={({item}) => (
-          <View style={styles.itemRow}>
-            <Text style={item.completed ? styles.completed :styles.itemText}>
-              {item.name}
-            </Text>
-
-            <Button title="Delete" onPress={() => deleteItem(item.id)} />
-            <Button title="Toggle" onPress={() => toggleItem(item.id)} />
-          </View>
+          <ItemRow item={item} onDelete={deleteItem} onToggle={toggleItem} />
         )}
+        ListEmptyComponent={<Text>No items yet</Text>}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
     </View>
   );
@@ -72,7 +69,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     padding: 20,
     backgroundColor: "#fff",
   },
@@ -94,9 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  itemText: {
-    fontSize: 18,
-  },
+ 
 
   completed: {
     fontSize: 18,
