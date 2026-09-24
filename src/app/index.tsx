@@ -1,15 +1,47 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import Button from "./Button";
 
+type Item = {
+  id: string;
+  name: string;
+  completed: boolean;
+};
+
 export default function HomeScreen() {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [text, setText] = useState<string>("");
 
   const addItem = () => {
     if (text.trim() === "") return;
-    setItems([...items, text.trim()]);
+    setItems([
+      ...items,
+      {
+        id: Date.now().toString(),
+        name: text.trim(),
+        completed: false,
+      },
+    ]);
     setText("");
+  };
+
+  const toggleItem = (itemId: string) => {
+    setItems(
+      items.map((item) => {
+        if (item.id === itemId) {
+          return {
+            ...item,
+            completed: !item.completed,
+          };
+        }
+
+        return item;
+      }),
+    );
+  };
+
+  const deleteItem = (itemToDelete: string) => {
+    setItems(items.filter((item) => item.id !== itemToDelete));
   };
   return (
     <View style={styles.container}>
@@ -20,9 +52,19 @@ export default function HomeScreen() {
         value={text}
       />
       <Button title="Add" onPress={addItem} />
-      {items.map((item) => (
-        <Text key={item}>{item}</Text>
-      ))}
+      <FlatList 
+        data={items}
+        renderItem={({item}) => (
+          <View style={styles.itemRow}>
+            <Text style={item.completed ? styles.completed :styles.itemText}>
+              {item.name}
+            </Text>
+
+            <Button title="Delete" onPress={() => deleteItem(item.id)} />
+            <Button title="Toggle" onPress={() => toggleItem(item.id)} />
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -46,5 +88,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 16,
     color: "#333",
+  },
+  itemRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  itemText: {
+    fontSize: 18,
+  },
+
+  completed: {
+    fontSize: 18,
+    textDecorationLine: "line-through",
   },
 });
